@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmación de Asistencia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #ffffff);
+      text-align: center;
+      padding: 30px;
+      color: #d63384;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin-bottom: 20px;
+      border: 2px solid #d63384;
+      border-radius: 10px;
+    }
+    button {
+      background-color: #d63384;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ad2969;
+    }
+    .contador {
+      margin-top: 30px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>¡Estás invitado a mi fiesta de 15 años!</h1>
+  <p>Confirma tu asistencia:</p>
+
+  <input type="text" id="nombre" placeholder="Escribe tu nombre">
+  <br>
+  <button onclick="confirmarAsistencia('sí')">Sí asistiré</button>
+  <button onclick="confirmarAsistencia('no')">No podré asistir</button>
+
+<script>
+  function confirmarAsistencia(respuesta) {
+    const nombre = document.getElementById('nombre').value.trim();
+    if (!nombre) {
+      alert('Por favor escribe tu nombre');
+      return;
+    }
+
+    const url = 'https://script.google.com/macros/s/AKfycbxyKxECuMVI7fBVOm3vnkba1ErqY48MwCMa0aVK-3IDZpsoLv_9Pd-QEpIgFFAEaxBLSQ/exec'; // <-- Pega aquí tu URL de Apps Script
+
+    fetch(url, {
+      method: 'POST',
+      body: new URLSearchParams({
+        'nombre': nombre,
+        'asistencia': respuesta
+      })
+    })
+    .then(response => response.text())
+    .then(result => {
+      alert(`Gracias por confirmar, ${nombre}!`);
+      document.getElementById('nombre').value = '';
+    })
+    .catch(error => {
+      alert('Error al enviar confirmación');
+      console.error(error);
+    });
+  }
+</script>
+</body>
+</html>
